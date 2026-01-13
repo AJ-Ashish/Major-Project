@@ -1,0 +1,167 @@
+<% layout('/layouts/boilerplate') -%>
+    <!-- <h3>All Listings</h3> -->
+    <!-- <form METHOD="GET" action="listings/new">
+        <button>Create New Listing</button>
+    </form> -->
+
+    <style>
+            
+        /* OUTER ROW */
+    .filters-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    flex-wrap: nowrap;
+    }
+
+    /* FILTER ICONS */
+    #filters {
+    display: flex;
+    gap: 1rem;          /* 👈 controlled spacing */
+    align-items: center;
+    overflow-x: auto;     /* mobile scroll like Airbnb */
+    flex: 1;
+    }
+
+    /* INDIVIDUAL FILTER */
+    .filter {
+    text-align: center;
+    opacity: 0.7;
+    min-width: 70px;
+    }
+
+    .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+    }
+
+    .filter p {
+    font-size: 0.8rem;
+    margin: 0;
+    }
+
+    .tax-info {
+     display: none;
+    }
+
+    /* GST TOGGLE */
+    .tax-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 1.5rem;
+    padding: 0.5rem 1rem;
+    white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+    .filters-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .tax-toggle {
+        align-self: flex-start;
+        margin-top: 0.5rem;
+    }
+
+
+    }
+
+
+
+
+    </style>
+    <div class="filters-wrapper">
+        <div id="filters">
+            <div class="filter">
+                <div><i class="fa-solid fa-fire"></i></div>
+                <p>Trending</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-bed"></i></div>
+                <p>Rooms</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-mountain-city"></i></div>
+                <p>Iconic Cities</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-mountain"></i></div>
+                <p>Mountains</p>
+            </div>
+            <div class="filter">
+                <div><i class="fa-solid fa-house"></i></div>
+                <p>Castles</p>
+            </div> 
+            <div class="filter">
+                <div><i class="fa-solid fa-person-swimming"></i></div>
+                <p>Amazing pools</p>
+            </div> 
+            <div class="filter">
+                <div><i class="fa-solid fa-campground"></i></div>
+                <p>Camping</p>
+            </div> 
+            <div class="filter">
+                <div><i class="fa-solid fa-house"></i></div>
+                <p>Castles</p>
+            </div> 
+            <div class="filter">
+                <div><i class="fa-solid fa-cow"></i></div>
+                <p>Farms</p>
+            </div> 
+            <div class="filter">
+                <div><i class="fa-solid fa-snowflake"></i></div>
+                <p>Arctic</p>
+            </div> 
+            <div class="filter">
+                <div><i class="fa-solid fa-igloo"></i></div>
+                <p>Domes</p>
+            </div> 
+            <div class="filter">
+                <div><i class="fa-solid fa-ship"></i></div>
+                <p>Boats</p>
+            </div> 
+        </div>
+        <div class="tax-toggle">
+            <span>Display total after taxes</span>
+            <input class="form-check-input ms-2 " id="switchCheckDefault" type="checkbox">
+        </div>
+    </div>
+   
+    
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+        <% for(let listing of allListings) { %>
+        <a href="/listings/<%= listing._id%> " class="listing-link">
+        <div class="card col listing-card" >
+        <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height:20rem" />
+         <div class="card-img-overlay"></div>
+        <div class="card-body">
+            <p class="card-text"><b><%= listing.title %> </b><br>
+            &#8377;<%= listing.price.toLocaleString("en-IN") %>/night <i class="tax-info"  > &nbsp; &nbsp;+18% GST</i></p>
+            </div>
+        </div>
+        </a>
+    <%}%>
+    </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const taxSwitch = document.getElementById("switchCheckDefault");
+    const taxInfo = document.getElementsByClassName("tax-info");
+
+    // Ensure initial state is OFF
+    taxSwitch.checked = false;
+
+    taxSwitch.addEventListener("change", () => {
+      for (let info of taxInfo) {
+        info.style.display = taxSwitch.checked ? "inline" : "none";
+      }
+    });
+  });
+</script>
+
+
+
